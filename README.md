@@ -463,6 +463,138 @@ ORDER BY total_traffic DESC;
 
 -- 47
 
+-- 50
+SELECT a.username AS username,a.email AS email,
+MAX(t.cost)AS highest_traffic,SUM(r.amount)AS consumption,SUM(t.cost)AS total_cost
+FROM readings50 r JOIN traffis50 t ON r.account_id=t.id
+JOIN accounts50 a ON r.traffic_id=a.id GROUP BY username 
+HAVING SUM(r.amount)=SUM(t.cost)
+ORDER BY username ASC;
+-- 51
+SELECT a.username AS username,a.email AS email,
+COUNT(*)AS items,SUM(i.weight)AS total_weight
+FROM accounts_items ai JOIN accounts a ON ai.account_id=a.id
+JOIN items i ON ai.item_id=i.id GROUP BY a.username
+ORDER BY total_weight DESC
+,username ASC;
+
+-- 52
+SELECT c.name AS city,COUNT(*) AS banner,MIN()AS min_area,
+AVG()AS avg_area,MAX()AS max_area,SUM()AS total_area
+FROM cities c JOIN banners b ON c.id=b.city_id
+ORDER BY city ASC;
+
+-- 53
+SELECT AS name,COUNT(*)AS offers,ROUND(MIN(o.amount),2)AS min_offer,
+ROUND(AVG(o.amount),2)AS avg_offer,ROUND(MAX(o.amount),2)AS max_offer
+FROM lots l JOIN offers o ON l.id=o.lot_id
+GROUP BY name
+ORDER BY offers DESC;
+
+-- 54
+SELECT CONCAT(a.first_name,a.last_name) AS full_name ,
+a.iban AS iban , SUM(d.income)AS income,'10%'AS rate,
+SUM(d.income*0.10)AS tax
+FROM accounts a JOIN declarations d
+ON a.id=d.account_id 
+GROUP BY a.iban ORDER BY full_name ASC;
+-- 55
+
+SELECT CONCAT(p.first_name,p.last_name) AS full_name ,
+p.email AS email , AS total_relations,
+SUM(
+CASE 
+	WHEN r.is_approved IS TRUE THEN 1
+	ELSE 0
+END
+)AS approved_relations,
+SUM(
+CASE 
+	WHEN r.is_approved IS FALSE THEN 1
+	ELSE 0
+END
+)
+AS pending_relations
+FROM accounts a JOIN declarations d
+ON a.id=d.account_id 
+GROUP BY a.iban ORDER BY full_name ASC;
+
+-- 56
+SELECT AS iban,COUNT(*)AS transactions,SUM(t.amount)AS total
+FROM accounts a JOIN transactions t
+ON a.id=t.account_id WHERE MONTHNAME(t.dt)='september'
+GROUP BY a.iban ORDER BY total DESC;
+
+-- 57
+SELECT c.mac AS mac,COUNT(*)AS traffic,SUM(t.amount)AS cost 
+FROM clients c JOIN traffic t ON c.id=t.client_id
+WHERE t.dt LIKE '2022-05%'
+GROUP BY mac 
+ORDER BY cost DESC;
+
+-- 58
+SELECT c.name AS name,c.address AS address,c.phone AS phone
+,AS overall_review_rating
+FROM companies c JOIN categories t ON c.id=t.company_id
+
+GROUP BY 
+ORDER BY cost DESC; 
+
+-- 59
+SELECT AS username,AS domains,AS nearest_expiration
+FROM accounts a JOIN domains d ON a.id=d.account_id
+WHERE d.expiration_date LIKE '2022-07-15'
+GROUP BY a.id,a.username
+ORDER BY username ASC;
+
+-- 60
+SELECT AS campaign, COUNT(*)AS events,AVG(e.value)AS average_value
+FROM campaign c JOIN events e ON c.id=e.campaign_id
+WHERE DATE(e.dt)='2022-07-15' 
+GROUP BY c.id,c.name HAVING AVG(e.value)>=0.7 
+ORDER BY average_value DESC;
+
+-- 61
+SELECT SUM(d.amount)AS total FROM profiles p 
+JOIN deals d ON p.id=d.profile_id
+WHERE d.dt LIKE '2022-06' GROUP BY p.id ORDER BY total DESC LIMIT 3;
+
+-- 62
+SELECT p.first_name AS first_name,p.last_name AS last_name,
+p.email AS email,
+SUM(s.job_success_score)AS job_success_score
+FROM profiles p JOIN stats s ON p.id=s.profile_id
+GROUP BY p.id HAVING SUM(s.job_success_score)>90
+ORDER BY job_success_score DESC,first_name ASC,last_name ASC;
+
+-- 63
+SELECT c.name AS configuration,COUNT(*)AS deployments
+FROM configurations c JOIN deployments d
+ON c.id=d.configuration_id
+WHERE d.dt LIKE '2021%' GROUP BY c.id ORDER BY deployments DESC;
+
+-- 64
+SELECT COUNT(*) AS purchases  FROM events 
+WHERE e.dt LIKE '2022-05%' AND type='buy'
+GROUP BY type;
+-- 65
+SELECT AS company_name,SUM(c.revenue)-SUM(c.expenses)AS profit
+FROM companies c JOIN campaigns t
+ON c.id=t.company_id GROUP BY c.id,c.name 
+HAVING SUM(c.revenue)-SUM(c.expenses)>0
+ORDER BY profit DESC;
+
+-- 66
+SELECT AS mac,AS upstream_rate,AS downstream_rate,AS downtime_rate
+FROM clients c JOIN 
+
+
+
+
+
+
+
+
 
 
 

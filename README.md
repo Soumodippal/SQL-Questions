@@ -592,7 +592,39 @@ FROM clients c JOIN
 
 
 
+-- 70
+SELECT AS ,AS ,AS FROM JOIN ON 
 
+-- 71
+SELECT c.customer_name AS customer_name,
+SUM(o.order_amount)AS total_fees FROM customers71 c JOIN orders71 o 
+ON c.id=o.customer_id
+ORDER BY customer_name ASC;
+
+-- 72
+SELECT c.customer_name AS full_name,
+SUM(o.order_amount)AS dues FROM credit_holders72 c 
+JOIN transactions71 t 
+ON c.id=t.transaction_id
+ORDER BY customer_name ASC;
+
+-- 73
+SELECT  account_holder,
+AS interest FROM accounts73 a 
+ORDER BY customer_name ASC;
+-- 74
+SELECT AS year,
+AS month FROM transactions74 t 
+ON c.id=t.transaction_id
+ORDER BY year ASC,month ASC;
+-- 75
+SELECT CONCAT(first_name,last_name)AS full_name,
+AS average_gpa FROM results75 r
+-- 76
+SELECT AS month,AS fund_name,AS total_investments 
+FROM funds76 
+-- 77
+SELECT protocol ,traffic_in,traffic_out FROM traffic77 
 
 
 
